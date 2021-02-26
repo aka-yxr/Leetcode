@@ -1,0 +1,19 @@
+int missingNumber(int* nums, int numsSize)
+{
+//如例1，数组有 3 0 1  从0-3，共有 0 1 2 3四个数，题目要求就是找从0-N中缺失的那个数。例1里就是2.
+//x=0是因为0与任何数异或都等于那个数。
+//i是从0道numsSize-1;
+    int x=0;
+    for(int i=0;i<numsSize;i++)
+    {
+        x=x^nums[i];
+        x=x^i;
+        //数组nums里 存在的数 和 i 异或之后，nums数组里的数就会变成0.
+        //只有数组中缺失的那个数还存在。
+    }
+    return x^numsSize;
+    //这里返回x异或numsSize是因为numsSize 那个数 没有被异或成0；
+}
+————————————————
+版权声明：本文为CSDN博主「aka_xyz」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/aka_xyz/article/details/114135648
