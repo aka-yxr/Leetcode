@@ -1,0 +1,43 @@
+ /* Note: The returned array must be malloced, assume caller calls free().
+ */
+int* singleNumbers(int* nums, int numsSize, int* returnSize)
+{
+    int x=0;
+    //依题使用动态开辟空间
+    int* ret=(int*)malloc(8);
+    *returnSize=2;
+    //求两个出现一次的数 的异或值.
+    for(int i=0;i<numsSize;i++)
+    {
+        x^=nums[i];
+    }
+    //求x最左边为1的位置
+    int i=1;
+    while(!(i&x))
+    {
+        i<<=1;
+        //左移操作符，左边丢弃，右边补0.
+        //当i&x不等0的时候，就找到最高位 1 的所在
+    }
+    ret[0]=0;
+    ret[1]=0;
+    //分组异或
+    //把数组内的数分为最高位==1和最高位!=1d两组，然后再分别异或两组内所有成员，
+    //最后得到的就是那两个只出现一次的数。
+    for(int j=0;j<numsSize;j++)
+    {
+        if((i&nums[j]))
+        {
+            ret[0]^=nums[j];
+        }
+        else
+        {
+            ret[1]^=nums[j];
+        }
+    }
+
+    return ret;
+}
+————————————————
+版权声明：本文为CSDN博主「aka_xyz」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/aka_xyz/article/details/114140070
