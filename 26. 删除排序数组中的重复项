@@ -1,0 +1,66 @@
+int removeDuplicates(int* nums, int numsSize)
+{
+    if (numsSize == 0) //这里考虑数组为空的情况
+        return 0;
+    int i = 0;
+    for (int j = 1; j < numsSize; j++) //定义了两个变量 i 和 j
+    {
+        if (nums[j] != nums[i]) //i指向的数组是删除重复项后的数组
+        {                       //j指向的数组是原来的，没有删除重复项的数组。
+            i++;
+            nums[i] = nums[j];
+        }
+    }
+    //例如
+    // 1 1 2 2 2 3 4  
+    // i j              此时nums[i]==nums[j];不满足if的条件
+    // 1 1 2 2 2 3 4
+    // i   j             此时nums[i]!=nums[j];满足if的条件
+    //                     数组nums就变成了 1 2 2 2 2 3 4
+    
+     // 1 2 2 2 2 3 4  
+    //    i   j              此时nums[i]==nums[j];不满足if的条件
+     // 1 2 2 2 2 3 4  
+    //    i     j              此时nums[i]==nums[j];不满足if的条件
+     // 1 2 2 2 2 3 4  
+    //    i       j              此时nums[i]!=nums[j];满足if的条件
+    //                    数组nums就变成了1 2 3 2 2 3 4
+	
+	// 1 2 3 2 2 3 4  
+    //     i       j              此时nums[i]!=nums[j];满足if的条件
+    //                    数组nums就变成了1 2 3 4 2 3 4
+    
+    
+    return i + 1;//返回的是有几个不重复的数字.
+
+}
+
+
+
+---------------------------------------------------------------------------------
+
+int removeDuplicates(int* nums, int numsSize)
+{
+    if(numsSize==0)//考虑数组内无元素的情况
+        return 0;
+    int qian=0,hou=1,ret=0;//qian hou 是用来找不同元素的，ret指向的是删除重复项后的数组
+    while(hou<numsSize)
+    {
+        if(nums[qian]==nums[hou])//如果qian hou 指向的数字相同就继续向后
+        {
+            qian++;
+            hou++;
+        }
+        else//如果不一样就把qian指向的数字赋值给nums[ret]
+        {
+            nums[ret]=nums[qian];
+            ret++;
+            qian++;
+            hou++;
+        }
+
+    }
+    nums[ret]=nums[qian];//这里是考虑到最后一个元素在循环内不会被赋值。
+    
+    return ret+1;
+}
