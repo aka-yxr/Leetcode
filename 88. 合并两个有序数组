@@ -1,0 +1,20 @@
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+    int p1=m-1;//指向nums1
+    int p2=n-1;//指向nums2
+    int p=m+n-1;//指向合并后的nums1
+    int cur=0;//记录合并后nums1每一个位置的值
+    while (p1 >= 0 || p2 >= 0)
+    {
+        if (p1 == -1)//nums1的原数据已经遍历完了。
+            cur = nums2[p2--];
+        else if (p2 == -1) //nums2的数据已经遍历完成。
+            cur = nums1[p1--];
+        else if (nums1[p1] > nums2[p2]) //nums1和nums2都没有遍历完的情况，且nums1里的数字大
+            cur = nums1[p1--];
+         else                          //nums1和nums2都没有遍历完的情况，且nums2里的数字大
+            cur = nums2[p2--];            
+            
+        nums1[p--] = cur;
+    }
+
+}
