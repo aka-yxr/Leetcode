@@ -1,0 +1,75 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* reverseList(struct ListNode* head){
+    if(head==NULL||head->next==NULL)//判断链表为空或者只有一个成员。
+    {
+        return head;
+    }
+    struct ListNode* newhead=NULL,*starnext=NULL,*star=head;
+// 1->2->3->4->5->NULL
+//定义newhead是新的头部。
+//newhead   star,starnext指向的是2
+//    NULL <-1       2->3->4->5->NULL
+//
+
+// 现在1就是newhead    star,starnext指向的是3
+//         NULL <-1  <- 2       3->4->5->NULL
+
+// 现在2就是newhead   star,starnext指向的是4
+//   NULL <-1  <- 2   <-3       4->5->NULL
+
+//    现在3就是newhead   star,starnext指向的是5
+//   NULL <-1 <- 2 <-3  <- 4     5->NULL
+
+//        现在4就是newhead      star,starnext指向的是NULL
+//   NULL <-1 <- 2 <-3   <- 4   <-5     NULL
+//下一步迭代就结束了。
+
+    while(star)
+    {
+        starnext=star->next;
+        //头插
+        star->next=newhead;
+        newhead=star;
+        star=starnext;
+    }
+    return newhead;
+}
+--------------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+
+struct ListNode* reverseList(struct ListNode* head){
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    struct ListNode* n1=NULL,*n2=head,*n3=head->next;
+    //单链表包括两部分，一个数字，一个指针，指针指向的就是下一个结点。
+    while(n2)
+    {
+        //反转，把每个结点指针的指向反转一下就🆗。
+        n2->next=n1;   //把指针的指向从指向后面变为指向前面。
+        //迭代
+        n1=n2;  //这时候把n1向后移动1位
+        n2=n3;  //n2向下移动一位
+        if(n3)  //n3就是记得原来指向的指针，也需要向下移动一位。
+        {
+            n3=n3->next;
+        }
+    }
+    return n1;
+
+}
