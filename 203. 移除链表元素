@@ -1,0 +1,37 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+//这是一道单链表的题目
+
+struct ListNode* removeElements(struct ListNode* head, int val){
+    struct ListNode* per=NULL,*cur=head;
+              //cur是去遍历每一个节点，而per是保存满足条件节点指针指向的位置
+    while(cur)
+    {
+        if(cur->val==val)//找到相同的数字
+        {
+            if(cur==head)//如果是首个节点
+            {
+                head=cur->next;//头节点就指向下一个元素
+                free(cur);      //把第一个节点释放掉
+                cur=head;       //再让cur指向下一个即现在的头节点
+            }
+            else//首节点与val不相等
+            {
+                per->next=cur->next;//把与val相等的节点的指针保存给per，然后把cur即这个节点free掉
+                free(cur);
+                cur=per->next;   //然后cur再去继续遍历
+            }
+        }
+        else//不相同数字的节点
+        {
+            per=cur;
+            cur=cur->next;
+        }
+    }
+    return head;
+}
