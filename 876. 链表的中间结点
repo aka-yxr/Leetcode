@@ -1,0 +1,22 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+//可以采用双指针里的快慢指针来写。
+//
+struct ListNode* middleNode(struct ListNode* head){
+    struct ListNode* fast=head,*slow=head;
+    while (fast != NULL && fast->next != NULL) 
+    {    总结点数为偶数个    总结点数为奇数个 
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    //快指针走的快，一次走两步。慢指针一次走一步
+
+     return slow;
+
+}
