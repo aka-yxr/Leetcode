@@ -1,0 +1,58 @@
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};*/
+struct ListNode* reverseList(struct ListNode* head)
+{
+    if(head==NULL||head->next==NULL)//判断链表为空或者只有一个成员。
+    {
+        return head;
+    }
+    struct ListNode* newhead=NULL,*starnext=NULL,*star=head;
+
+    while(star)
+    {
+        starnext=star->next;
+        //头插
+        star->next=newhead;
+        newhead=star;
+        star=starnext;
+    }
+    return newhead;
+}
+//可以先用快慢指针来找到中间结点的位置。
+//然后把中间结点后面一段链表反转一下。如果是回文链表。则前半部分结点的值，和后面反转过的链表的结点值应该一一对应相等
+
+class Palindrome {
+public:
+    bool isPalindrome(ListNode* pHead) {
+        // write code here
+        ListNode* fast=pHead;
+        ListNode* slow=pHead;
+        ListNode* per=NULL;//per的作用是在找到中间结点的时候把前半部分和后半部分断开。
+        //找中间结点的位置
+        while(fast && fast->next)
+        {
+            per=slow;
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        per->next=NULL;
+        //将链表后半部分反转.
+        slow = reverseList(slow);
+        //判断前半部分和后半部分是不是一一对应相等
+        while(pHead)
+        {
+            if(pHead->val!=slow->val)
+                return false;
+            else
+            {
+                pHead=pHead->next;
+                slow=slow->next;
+            }
+        }
+        return true;
+    }
+};
