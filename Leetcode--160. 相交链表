@@ -1,0 +1,53 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+ typedef struct ListNode ListNode;
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB)
+ {
+     //第一步求出两个链表的长度
+     ListNode* curA=headA;
+     ListNode* curB=headB;
+     int la=0,lb=0;
+     while(curA)
+     {
+         la++;
+         curA=curA->next;
+     }
+     while(curB)
+     {
+         lb++;
+         curB=curB->next;
+     }
+
+     ListNode* longList=headA;
+     ListNode* shortList=headB;
+     if(lb>la)
+     {
+         longList=headB;
+         shortList=headA;
+     }
+
+     //第二步，让长的链表先走 |la-lb|步
+     int tmp=abs(la-lb);
+     while(tmp--)
+     {
+         longList=longList->next;
+     }
+
+     //第三步，两个链表进行比较
+     while(longList)
+     {
+         if(longList==shortList)
+            return longList;
+        longList=longList->next;
+        shortList=shortList->next;
+     }
+
+     return NULL;
+
+}
