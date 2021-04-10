@@ -1,0 +1,41 @@
+int cmp(const void* a,const void* b)
+{
+    int* x1=(int*)a;
+    int* x2=(int*)b;
+    return *x1-*x2;
+}
+
+int findMin(int* nums, int numsSize){
+    qsort(nums,numsSize,sizeof(int),cmp);
+    return nums[0];
+}
+
+
+/*
+分析：
+鉴于数组中可能有重复的数字，所以能单纯的使用二分法
+1.二分法和暴力遍历相结合的方法。
+2.当mid小于right的时候，说明最小值在mid的左边，包括mid。
+3.当mid大于right的时候，说明最小值在mid的右边，可以不包括mid。
+4.如果mid和right的相等时，不好判断，让right向左移动。
+*/
+
+int findMin(int* nums, int numsSize)
+ {
+    int left = 0;
+    int right = numsSize - 1;
+    while (left < right) 
+    {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] < nums[right])
+            right = mid;
+        else if (nums[mid] > nums[right]) 
+            left = mid + 1;
+        else 
+            right--;
+        
+    }
+    return nums[left];
+}
+
