@@ -1,0 +1,49 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+/*
+分析：
+1.同样适用快慢指针来解决问题。
+2.如果有环的话，快指针会先进环，并在慢指针进环的时候，开始追慢指针。
+3.可以假设 环之前的结点长度为L，环点和相遇点的结点长度为X，环的结点长度为C。
+4.经过计算可以知道，L + X = N*C;
+   =>L = N*C -X;
+   = L = (N-1)*C + C-X;
+5.而当忽略(N-1)*C的时候， L =C-X；刚好就是头指针和meet指针 到环入口，即环点的距离。
+*/
+ typedef struct ListNode ListNode;
+struct ListNode *detectCycle(struct ListNode *head) {
+    //快慢指针
+    ListNode* slow,*fast;
+    slow=fast=head;
+    while(fast && fast->next)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        if(fast == slow)
+            break;
+    }
+    //如果只有一个结点或者没有结点
+    if(fast==NULL||fast->next==NULL)
+        return NULL;
+
+    //快慢指针相遇点
+    ListNode* meet=fast;
+    
+    //让meet指针在相遇点的位置，和头指针一起走
+    //头指针从头到环点，和meet指针从相遇点到环点 的距离分别是L 、N-X；
+    //                            忽略(N-1)*C,               L= C-X
+    //再次相遇的时候就是环的入口。
+
+    while(head!=meet)
+    {
+        head=head->next;
+        meet=meet->next;
+    }
+
+    return meet;
+}
