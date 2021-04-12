@@ -1,0 +1,22 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+ //用快慢指针来解决，如果是环状链表，那么必然有快指针追上慢指针的时候
+ typedef struct ListNode ListNode;
+bool hasCycle(struct ListNode *head) {
+    ListNode* fast=head;
+    ListNode* slow=head;
+    while(fast &&fast->next)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+
+        if(slow==fast)
+            return true;
+    }
+    return false;
+}
