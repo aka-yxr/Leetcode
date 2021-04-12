@@ -1,0 +1,33 @@
+int minofthree(int a, int b, int c)
+{
+    int temp;
+    temp = a < b ? a : b;
+    return temp < c ? temp : c;
+}
+int nthUglyNumber(int n){
+    //三指针法
+    //以1为基底，去× 2，3，5；
+    //找它们三个中最小的为第二个丑数。
+    //那个指针被使用了，指针变量加一。
+    int *num = (int*)malloc(sizeof(int) * n);
+    num[0] = 1;
+    int p1 = 0; 
+    int p2 = 0;
+    int p3 = 0;
+    int sum = 1;
+    for (int i = 1; i < n; i++) {
+        int temp = minofthree(num[p1] * 2, num[p2] * 3, num[p3] * 5);
+        num[i] = temp;
+        if (temp == num[p1] * 2) {
+            p1++;
+        }
+        if (temp == num[p2] * 3) {
+            p2++;
+        }
+        if (temp == num[p3] * 5) {
+            p3++;
+        }
+        sum = temp;
+    }
+    return sum;
+}
