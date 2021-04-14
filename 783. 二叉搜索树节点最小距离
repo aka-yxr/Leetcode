@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+//用中序遍历，因为中序遍历是按从小到大的顺序。
+//在遍历的同时，比较前后两个结点的数值大小。
+//用ans存放最小差值，用pos存放上一个结点的值，用于（下一个结点-pos）和ans比较
+
+typedef struct TreeNode TreeNode;
+//中序遍历
+int Fmin(int a,int b)
+{
+    return a>b?b:a;
+}
+void midFind(TreeNode* root,int* ans,int* pos)
+{
+    if(root==NULL)
+        return;
+    midFind(root->left,ans,pos);
+    if(*pos==-1)
+    {
+        *pos=root->val;
+    }
+    else
+    {
+        *ans=Fmin(*ans,root->val-(*pos));
+        *pos=root->val;
+    }
+    midFind(root->right,ans,pos);
+}
+
+int minDiffInBST(struct TreeNode* root)
+{
+    int ans=INT_MAX,pos=-1;
+    //ans记录最小差值,pos记录上一个结点的值
+    midFind(root,&ans,&pos);
+    return ans;
+}
