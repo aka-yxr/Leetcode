@@ -1,0 +1,32 @@
+int Min(int a,int b)
+{
+    return a>b?b:a;
+}
+//动态规划dp
+//有coinsSize种面额的硬币，总金额 amount 要用最少的硬币凑出 amount元
+int coinChange(int* coins, int coinsSize, int amount){
+    //f[] 表示用了多少硬币拼出的金额。
+    int f[amount+1];
+    f[0]=0;
+    // INT_MAX
+    int i,j;
+    for(i=1;i<=amount;i++)
+    {
+        //初始化成无穷大，这样就能让不能被硬币拼出的金额用无穷大表示
+        f[i]=INT_MAX;
+        //这里有3枚不同硬币，这层循环就是在寻找拼出f[i]金额所需的最小硬币 数.
+        //其实也就是把不同金额的硬币数进行比较，去寻找最少硬币数。
+        for(j=0;j<coinsSize;j++)
+        {
+            //在计算机中无穷大+1会溢出的
+            //i-coins[j]可能是负数，但不允许是负数
+            if(i>=coins[j]&&f[i-coins[j]]!=INT_MAX)
+            {
+                f[i]=Min(f[i-coins[j]]+1,f[i]);
+            }
+        }
+    }
+    if(f[amount]==INT_MAX)
+        return -1;
+    return f[amount];
+}
