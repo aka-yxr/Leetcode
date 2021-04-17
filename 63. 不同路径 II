@@ -1,0 +1,28 @@
+
+//
+int uniquePathsWithObstacles(int** obstacleGrid, int obstacleGridSize, int* obstacleGridColSize){
+    int m=obstacleGridSize;
+    int n=obstacleGridColSize[0];
+    int arr[m][n];
+    int i,j;
+    for(i=0;i<m;i++)
+        for(j=0;j<n;j++)
+            arr[i][j]=0;
+    arr[0][0]=1;
+    //考虑起点位置有障碍物的情况
+    if(obstacleGrid[0][0]==1)
+        return 0;
+    for(i=0;i<m;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            if(obstacleGrid[i][j]==1)
+                continue;
+            if(i>0)
+                arr[i][j]+=arr[i-1][j];
+            if(j>0)
+                arr[i][j]+=arr[i][j-1];
+        }
+    }
+    return arr[m-1][n-1];
+}
