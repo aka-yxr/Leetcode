@@ -1,0 +1,129 @@
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct Node *next;
+ *     struct Node *random;
+ * };
+ */
+ typedef struct Node Node;
+
+struct Node* copyRandomList(struct Node* head) {
+    if(head==NULL)
+        return NULL;
+	
+    Node* cur=head;
+    //1.拷贝结点链接到原结点的后面
+    while(cur)
+    {
+        Node* copy=(Node*)malloc(sizeof(Node));
+        copy->next=NULL;
+        copy->random=NULL;
+
+        copy->val=cur->val;
+
+        Node* Next =cur->next;
+        cur->next=copy;
+        copy->next=Next;
+
+        cur=Next;
+    }
+    //2.处理拷贝结点的random
+    cur=head;
+    while(cur)
+    {
+        Node* copy=cur->next;
+        if(copy->random)
+            copy->random=cur->random->next;
+        else
+            copy->random=NUL;
+
+        cur=cur->next->next;
+    }
+    //3.拆解
+    cur=head;
+    Node* copyHead=head->next;
+    while(cur)
+    {
+        Node* copy=cur->next;
+        Node* Next=copy->next;
+
+        cur->next=Next;
+        if(Next)
+            copy->next=Next->next;
+        else
+            copy->next=NULL;
+
+        cur=Next;
+    }
+    return copyHead;
+
+}
+
+
+-------------------------------------------
+
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct TreeNode *next;
+ *     struct TreeNode *random;
+ * };
+ */
+
+//方法二：原位置拷贝链表
+//1,遍历链表，对每个节点复制新的节点插入到当前节点后面,形成新的链表
+//2,修改新复制节点的随机指针 指向 后一个节点
+//3,拆分链表
+struct Node* copyRandomList(struct Node* head) {
+
+    struct Node*    pTmp    = NULL;
+    struct Node*    pSrc    = NULL;
+    struct Node*    pDes    = NULL;
+
+    if(NULL == head) return NULL;
+
+    //1,复制每个节点，并将新的节点插入每个节点后面
+    pSrc = head;
+    while(NULL != pSrc)
+    {
+        pTmp = (struct Node*)malloc(sizeof(struct Node));
+        if(NULL == pTmp) return NULL;
+
+        pTmp->val = pSrc->val;
+        pTmp->random = pSrc->random;
+
+        pTmp->next = pSrc->next;
+        pSrc->next = pTmp;
+        pSrc = pTmp->next;
+    }
+    
+    //2,修改新链表中新增的节点的随机指针
+    pSrc = head;
+    while(NULL != pSrc)
+    {
+        pDes = pSrc->next;
+        if(NULL != pDes->random)
+        {
+            pDes->random = pDes->random->next;
+        }
+        pSrc = pDes->next;
+    }
+
+    //3,拆分出复制好的链表
+    pSrc = head;
+    pDes = head->next;
+    while((NULL != pSrc) && (NULL != pSrc->next))
+    {
+        pTmp = pSrc->next;
+        pSrc->next = pTmp->next;
+
+        pSrc = pTmp->next;
+        if(NULL != pTmp->next)
+        {
+            pTmp->next = pSrc->next;
+        }
+    }
+    return pDes;
+}
