@@ -1,0 +1,13 @@
+char * toLowerCase(char * str){
+    int i, len = strlen(str);
+    char *ret = calloc(len + 1, 1);
+
+    for (i = 0; i < len; i++) {
+        if (isupper(str[i]))
+            ret[i] = str[i] + 32;
+        else
+            ret[i] = str[i];
+    }
+
+    return ret;
+}
