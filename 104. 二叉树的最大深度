@@ -1,0 +1,12 @@
+//简单的递归算法，
+//
+int maxDepth(struct TreeNode* root){
+    if(root == NULL)
+        return 0;
+    
+    int Left = maxDepth(root->left);
+	  int Right = maxDepth(root->right);
+    int fin = Left > Right ? Left+1 : Right+1;
+	return fin;
+
+}
