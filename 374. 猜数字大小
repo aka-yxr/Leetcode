@@ -1,0 +1,32 @@
+/*
+这道题题目有点难搞，已经有了一个函数guess(int n)，是用来判断大小的。
+这道题用的是二分查找
+guess(mid)>0 说明猜小了
+guess(mid)<0 说明猜大了
+
+*/
+/** 
+ * Forward declaration of guess API.
+ * @param  num   your guess
+ * @return 	     -1 if num is lower than the guess number
+ *			      1 if num is higher than the guess number
+ *               otherwise return 0
+ * int guess(int num);
+ */
+
+int guessNumber(int n){
+    int lower=1,higher=n,mid=lower+(higher-lower)/2;
+    while(guess(mid))
+    {
+        if(guess(mid)>0)
+        {
+            lower=mid+1;
+            mid=lower+(higher-lower)/2;
+        }
+        else
+        {
+            higher=mid-1;
+            mid=lower+(higher-lower)/2;
+        }
+    }
+    return mid;
